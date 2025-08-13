@@ -1,4 +1,4 @@
-import confg from '../config/config'
+import conf from '../config/conf'
 import { Client, Account, ID } from 'appwrite'
 
 export class AuthService {
@@ -6,8 +6,8 @@ export class AuthService {
     account;
     constructor() {
         this.client
-            .setEndpoint(confg.appwriteUrl)
-            .setProject(confg.appwriteProjectIdc)
+            .setEndpoint(conf.appwriteUrl)
+            .setProject(conf.appwriteProjectIdc)
         this.account = new Account(this.client);
 
     }
@@ -23,7 +23,7 @@ export class AuthService {
                 return userAccount
             }
         } catch (error) {
-            throw error;
+            console.log("Appwrite service :: createAccount :: error",error)
         }
     }
 
@@ -32,8 +32,7 @@ export class AuthService {
             await this.account.createEmailPasswordSession(email, password);
 
         } catch (error) {
-            throw error;
-
+  console.log("Appwrite service :: login :: error",error)
         }
     }
 
@@ -41,7 +40,7 @@ export class AuthService {
         try {
             return await this.account.get()
         } catch (error) {
-            throw error;
+            console.log("Appwrite service :: getCurrentUser :: error",error)
         }
         return null;
 
@@ -51,7 +50,7 @@ export class AuthService {
         try {
             await this.account.deleteSessions('current');
         } catch (error) {
-            throw error;
+            console.log("Appwrite service :: logout :: error",error)
         }
     }
 }
